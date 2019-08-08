@@ -2,6 +2,9 @@ package com.foxfirm.algorithms.sortbase;
 
 /**
  * InsertionSort
+ * <p>插入排序，其思想如同玩扑克抓牌时，
+ * 在手中对扑克进行排序，左手的牌都是排好的，右手中的那张是即将插入的，
+ * 桌子上盖住的牌是未排序的
  *
  * @author huligang
  * @version 1.0
@@ -14,7 +17,7 @@ public class InsertionSort {
      *
      * @param a
      */
-    public void insertionSort(int[] a) {
+    public void sort(int[] a) {
         for (int j = 1; j < a.length; j++) {
             int key = a[j];
             int i = j - 1;
