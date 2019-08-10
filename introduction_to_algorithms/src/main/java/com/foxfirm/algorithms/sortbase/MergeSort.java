@@ -1,5 +1,7 @@
 package com.foxfirm.algorithms.sortbase;
 
+import java.util.Arrays;
+
 /**
  * MergeSort
  * <p>归并排序，采用分治思想，将原n个元素序列分解成各具n/2个元素的的两个子序列，递归的排序两个子序列，
@@ -10,6 +12,17 @@ package com.foxfirm.algorithms.sortbase;
  * @since 2019-08-08
  */
 public class MergeSort {
+
+    public static void main(String[] args) {
+
+        int[] a = {22, 33, 4, 32, 46, 5, 3, 29, 13};
+        System.out.println(Arrays.toString(a));
+
+        System.out.println("Merge-sort!");
+        (new MergeSort()).sort(a);
+        System.out.println(Arrays.toString(a));
+
+    }
 
     /**
      * 归并排序
