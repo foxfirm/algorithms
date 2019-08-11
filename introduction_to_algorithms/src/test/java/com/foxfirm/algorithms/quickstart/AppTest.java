@@ -1,5 +1,6 @@
 package com.foxfirm.algorithms.quickstart;
 
+import com.foxfirm.algorithms.datastructbase.Stack;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -32,7 +33,13 @@ public class AppTest
         assertTrue(true);
     }
 
-    public void testInsertionSort() {
+    public void testStack() throws Exception {
+        System.out.println("welcome to junit test.");
+        Stack stack = new Stack(100);
+        stack.push(4);
+        stack.push(49);
 
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
     }
 }
