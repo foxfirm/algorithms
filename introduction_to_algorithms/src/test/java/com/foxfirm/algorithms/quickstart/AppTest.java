@@ -1,5 +1,6 @@
 package com.foxfirm.algorithms.quickstart;
 
+import com.foxfirm.algorithms.binarysearchtree.BinarySearchTree;
 import com.foxfirm.algorithms.datastructbase.Stack;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -41,5 +42,17 @@ public class AppTest
 
         System.out.println(stack.pop());
         System.out.println(stack.pop());
+    }
+
+    public void testBinarySortTree() {
+        BinarySearchTree tree = new BinarySearchTree();
+        tree.insert(2);
+        tree.insert(23);
+        tree.insert(21);
+        tree.insert(222);
+        tree.insert(12);
+        tree.insert(23);
+
+        tree.print();
     }
 }
