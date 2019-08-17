@@ -11,7 +11,11 @@ public class BinarySearchTree {
 
     private Node root;
 
-    static class Node {
+    public Node getRoot() {
+        return root;
+    }
+
+    public static class Node {
         int key;
         Object data;
         Node parent;
@@ -25,6 +29,11 @@ public class BinarySearchTree {
         public Node(int key, Object data) {
             this.key = key;
             this.data = data;
+        }
+
+        @Override
+        public String toString() {
+            return key + ":" + data;
         }
     }
 
@@ -40,20 +49,19 @@ public class BinarySearchTree {
     private void inorderWalk(Node node) {
         if (node != null) {
             inorderWalk(node.left);
-            System.out.println(node.key);
+            System.out.println(node.key + "-" + node.data);
             inorderWalk(node.right);
         }
     }
 
     /**
-     * 从树中查找卫星数据
+     * 从树中查找元素
      *
      * @param k
      * @return
      */
-    public Object search(int k) {
-        Node node = search(root, k);
-        return node == null ? null : node.data;
+    public Node search(int k) {
+        return search(root, k);
     }
 
     /**
@@ -63,7 +71,7 @@ public class BinarySearchTree {
      * @param k
      * @return
      */
-    private Node search(Node x, int k) {
+    public Node search(Node x, int k) {
         while (x != null && x.key != k) {
             if (k < x.key) {
                 x = x.left;
@@ -75,22 +83,83 @@ public class BinarySearchTree {
     }
 
     /**
-     * 将key插入二叉搜索树
+     * 最小节点
      *
-     * @param key
+     * @param x
+     * @return
      */
-    public void insert(int key) {
-        insert(key, null);
+    public Node minimum(Node x) {
+        while (x != null && x.left != null) {
+            x = x.left;
+        }
+        return x;
     }
 
     /**
-     * 将key和卫星数据插入二叉搜索树
+     * 最大节点
      *
-     * @param k
-     * @param data
+     * @param x
+     * @return
      */
-    public void insert(int k, Object data) {
-        Node z = new Node(k, data);
+    public Node maximum(Node x) {
+        while (x != null && x.right != null) {
+            x = x.right;
+        }
+        return x;
+    }
+
+    /**
+     * 后继
+     *
+     * @param x
+     * @return
+     */
+    public Node successor(Node x) {
+        if (x.right != null) {
+            return minimum(x.right);
+        }
+        Node p = x.parent;
+        while (p != null && p.right == x) {
+            x = p;
+            p = p.parent;
+        }
+        return p;
+    }
+
+    /**
+     * 前驱
+     *
+     * @param x
+     * @return
+     */
+    public Node predecessor(Node x) {
+        if (x.left != null) {
+            return maximum(x.left);
+        }
+        Node p = x.parent;
+        while (p != null && p.left == x) {
+            x = p;
+            p = p.parent;
+        }
+        return p;
+    }
+
+    /**
+     * 将key和数据插入二叉搜索树
+     *
+     * @param key
+     */
+    public void insert(int key, Object data) {
+        Node z = new Node(key, data);
+        insert(z);
+    }
+
+    /**
+     * 将节点插入二叉搜索树
+     *
+     * @param z
+     */
+    public void insert(Node z) {
         Node y = null;
         Node x = this.root;
         while (x != null) {
@@ -108,6 +177,67 @@ public class BinarySearchTree {
             y.left = z;
         } else {
             y.right = z;
+        }
+    }
+
+    /**
+     * 将v节点替换u节点
+     *
+     * @param u
+     * @param v
+     */
+    private void transplant(Node u, Node v) {
+        if (u.parent == null) {
+            this.root = v;
+        } else if (u.parent.left == u) {
+            u.parent.left = v;
+        } else {
+            u.parent.right = v;
+        }
+        if (v != null) {
+            v.parent = u.parent;
+        }
+    }
+
+    /**
+     * 删除节点，右子节点代替原来节点位置
+     *
+     * @param z
+     */
+    public void delete(Node z) {
+        if (z.left == null) {
+            transplant(z, z.right);
+        } else if (z.right == null) {
+            transplant(z, z.left);
+        } else {
+            transplant(z, z.right);
+            Node y = minimum(z.right);
+            y.left = z.left;
+            y.left.parent = y;
+        }
+        z = null;
+    }
+
+    /**
+     * 删除节点，后继节点替代原来节点位置
+     *
+     * @param z
+     */
+    public void deleteMethod(Node z) {
+        if (z.left == null) {
+            transplant(z, z.right);
+        } else if (z.right == null) {
+            transplant(z, z.left);
+        } else {
+            Node s = minimum(z.right);
+            if (s.parent != z) {
+                transplant(s, s.right);
+                s.right = z.right;
+                s.right.parent = s;
+            }
+            transplant(z, s);
+            s.left = z.left;
+            s.left.parent = s;
         }
     }
 }

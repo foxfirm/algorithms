@@ -46,12 +46,26 @@ public class AppTest
 
     public void testBinarySortTree() {
         BinarySearchTree tree = new BinarySearchTree();
-        tree.insert(2);
-        tree.insert(23);
-        tree.insert(21);
-        tree.insert(222);
-        tree.insert(12);
-        tree.insert(23);
+        tree.insert(20, "dog");
+        tree.insert(18, "gou");
+        tree.insert(66, null);
+        tree.insert(9, "wosh222");
+        tree.insert(22, 9);
+        tree.insert(19, 88);
+        tree.insert(15, 88);
+        tree.insert(14, 88);
+        tree.insert(17, 88);
+        tree.insert(12, 9);
+        tree.insert(10, 88);
+        tree.insert(17, 88);
+        tree.insert(16, 88);
+        tree.insert(16, 88);
+        tree.insert(16, 88);
+
+        BinarySearchTree.Node node = tree.search(15);
+
+
+        tree.deleteMethod(node);
 
         tree.print();
     }
