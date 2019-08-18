@@ -46,27 +46,37 @@ public class AppTest
 
     public void testBinarySortTree() {
         BinarySearchTree tree = new BinarySearchTree();
-        tree.insert(20, "dog");
-        tree.insert(18, "gou");
-        tree.insert(66, null);
-        tree.insert(9, "wosh222");
-        tree.insert(22, 9);
-        tree.insert(19, 88);
-        tree.insert(15, 88);
-        tree.insert(14, 88);
-        tree.insert(17, 88);
-        tree.insert(12, 9);
-        tree.insert(10, 88);
-        tree.insert(17, 88);
-        tree.insert(16, 88);
-        tree.insert(16, 88);
-        tree.insert(16, 88);
-
-        BinarySearchTree.Node node = tree.search(15);
+//        tree.insert(20, "dog");
+//        tree.insert(18, "gou");
+//        tree.insert(66, null);
+//        tree.insert(9, "wosh222");
+//        tree.insert(22, 9);
+//        tree.insert(19, 88);
+//        tree.insert(15, 88);
+//        tree.insert(14, 88);
+//        tree.insert(17, 88);
+//        tree.insert(12, 9);
+//        tree.insert(10, 88);
+//        tree.insert(17, 88);
+//        tree.insert(16, 88);
+//        tree.insert(16, 88);
+//        tree.insert(16, 88);
 
 
-        tree.deleteMethod(node);
+        tree.insert(20, "");
+        tree.insert(18, "");
+        tree.insert(66, "");
+        tree.insert(9, "");
+        tree.insert(19, "");
+        tree.insert(22, "");
+        tree.insert(88, "");
 
-        tree.print();
+        //BinarySearchTree.Node node = tree.search(15);
+
+
+        //tree.deleteMethod(node);
+
+        tree.displayTree(tree.getRoot());
+
     }
 }

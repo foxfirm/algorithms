@@ -1,5 +1,8 @@
 package com.foxfirm.algorithms.binarysearchtree;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 /**
  * BinarySearchTree
  *
@@ -33,7 +36,8 @@ public class BinarySearchTree {
 
         @Override
         public String toString() {
-            return key + ":" + data;
+            //return key + ":" + data;
+            return "" + key;
         }
     }
 
@@ -240,4 +244,158 @@ public class BinarySearchTree {
             s.left.parent = s;
         }
     }
+
+    public String display() {
+        LinkedList<LinkedList<Node>> rowList = new LinkedList<>();
+        LinkedList<Node> row = new LinkedList<>();
+        row.add(root);
+        rowList.add(row);
+        boolean hasMore = true;
+        while (hasMore) {
+            hasMore = false;
+            LinkedList<Node> newRow = new LinkedList<>();
+            for (int i = 0; i < row.size(); i++) {
+                if (row.get(i) != null) {
+                    newRow.add(row.get(i).left);
+                    newRow.add(row.get(i).right);
+                    if (row.get(i).left != null || row.get(i).right != null) {
+                        hasMore = true;
+                    }
+                }
+            }
+            if (hasMore) {
+                rowList.add(newRow);
+                row = newRow;
+            }
+        }
+
+        int high = rowList.size();
+        //int maxColumnNum = (int) Math.pow(2, high - 1);
+
+        LinkedList<LinkedList<Character>> image = new LinkedList<>();
+        for (int i = 0; i < high; i++) {
+            LinkedList<Character> chars = new LinkedList<>();
+
+            LinkedList<Node> perRow = rowList.get(i);
+            String testStr = "";
+            for (int j = 0; j < perRow.size(); j++) {
+
+                //testStr = "";
+                if (perRow.get(j) != null) {
+                    // 坐标
+                    int firstLength = (int) Math.pow(2, high - i - 1) - 1;
+                    int interval = (int) Math.pow(2, high - i);
+                    int x = firstLength + j * interval;
+
+                    testStr = appendCoord(testStr, x, perRow.get(j));
+                }
+
+            }
+            System.out.println(testStr);
+        }
+
+        // test
+
+
+        return Arrays.toString(rowList.toArray());
+    }
+
+    public String appendCoord(String s, int x, Node node) {
+        //System.out.println("s:" + s + ",x:" + x + ",key:" + node);
+
+        char[] keys = String.valueOf(node.key).toCharArray();
+        char[] olds = s.toCharArray();
+        char[] news = new char[x + keys.length];
+        for (int i = 0; i < news.length; i++) {
+            news[i] = '_';
+        }
+
+        if (olds.length <= news.length) {
+            for (int i = 0; i < olds.length; i++) {
+                news[i] = olds[i];
+            }
+            for (int j = x, k = 0; j < x + keys.length; j++, k++) {
+                news[j] = keys[k];
+            }
+            StringBuilder sb = new StringBuilder();
+            for (char c : news) {
+                sb.append(c);
+            }
+            String ret = sb.toString();
+            return ret;
+        } else {
+            for (int j = x - 1, k = 0; j < x - 1 + keys.length; j++) {
+                olds[j] = keys[k++];
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(olds);
+            return sb.toString();
+        }
+    }
+
+
+    /**
+     * 树的高度
+     *
+     * @param root
+     * @return
+     */
+    public int getHigh(Node root) {
+        return (root == null) ? 0 : Math.max(getHigh(root.left), getHigh(root.right)) + 1;
+    }
+
+    private void writeArray(Node curNode, int rowIndex, int columnIndex, String[][] res, int high) {
+        if (curNode == null) {
+            return;
+        }
+        res[rowIndex][columnIndex] = String.valueOf(curNode.key);
+        int curLevel = (rowIndex + 1) / 2;
+        if (curLevel == high) {
+            return;
+        }
+        int gap = high - curLevel - 1;
+
+        if (curNode.left != null) {
+            res[rowIndex + 1][columnIndex - gap] = "/";
+            writeArray(curNode.left, rowIndex + 2, columnIndex - gap * 2, res, high);
+        }
+
+        if (curNode.right != null) {
+            res[rowIndex + 1][columnIndex + gap] = "\\";
+            writeArray(curNode.right, rowIndex + 2, columnIndex + gap * 2, res, high);
+        }
+    }
+
+    public void displayTree(Node root) {
+        if (root == null) {
+            System.out.println("Empty!");
+            return;
+        }
+        int high = getHigh(root);
+
+        int arrayHigh = high * 2 - 1;
+        int arrayWidth = (2 << (high - 2)) * 3 + 1;
+
+        String[][] res = new String[arrayHigh][arrayWidth];
+        for (int i = 0; i < arrayHigh; i++) {
+            for (int j = 0; j < arrayWidth; j++) {
+                res[i][j] = " ";
+            }
+        }
+
+        writeArray(root, 0, arrayWidth / 2, res, high);
+
+        for (String[] line : res) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < line.length; i++) {
+                sb.append(line[i]);
+                if (line[i].length() > 1 && i < line.length) {
+                    i += line[i].length() > 4 ? 2 : line[i].length() - 1;
+                }
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+
 }
