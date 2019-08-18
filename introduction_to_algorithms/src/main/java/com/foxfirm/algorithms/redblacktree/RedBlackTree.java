@@ -117,6 +117,12 @@ public class RedBlackTree {
     }
 
 
+    /**
+     * 保持红黑树性质
+     *
+     * @param tree
+     * @param z
+     */
     public void rbInsertFixup(RedBlackTree tree, Node z) {
 
     }
